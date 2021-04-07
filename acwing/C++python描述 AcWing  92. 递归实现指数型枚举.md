@@ -1,4 +1,4 @@
-# C++/Python描述 AcWing 92. 递归实现指数型枚举
+# C++/python描述 AcWing  92. 递归实现指数型枚举
 
 >>&emsp; 大家好，我叫亓官劼（qí guān jié ），在GitHub & CSDN中记录学习的点滴历程，时光荏苒，未来可期，加油~博主目前仅在GitHub & CSDN中写博客，唯一博客更新的地址为：[亓官劼的博客](https://blog.csdn.net/qq_43422111)  ，近期将逐渐同步刷题相关记录到GitHub：[Algorithmic-learning-records](https://github.com/qiguanjie/Algorithmic-learning-records)，大多是本人的刷题记录，如果转载请附上原文地址，谢谢。
 >
@@ -12,18 +12,17 @@
 
 ---
 
-
-从 1∼n 这 nn 个整数中随机选取任意多个，输出所有可能的选择方案。
+从 1∼n 这 n 个整数中随机选取任意多个，输出所有可能的选择方案。
 
 #### 输入格式
 
-输入一个整数 nn。
+输入一个整数 n。
 
 #### 输出格式
 
 每行输出一种方案。
 
-同一行内的数必须升序排列，相邻两个数用恰好 11 个空格隔开。
+同一行内的数必须升序排列，相邻两个数用恰好 1 个空格隔开。
 
 对于没有选任何数的方案，输出空行。
 
@@ -31,7 +30,7 @@
 
 #### 数据范围
 
-1≤n≤15
+1≤n≤151≤n≤15
 
 #### 输入样例：
 
@@ -53,7 +52,7 @@
 
 ## 解题思路
 
-采用dfs递归搜索+回溯即可搜索出所有的方案，如果我们对每一个数字，先选择不选，后选择选，则可以达到升序。
+dfs+回溯
 
 ## 算法实现一 C++
 
@@ -64,6 +63,7 @@ const int N = 15;
 int s[N],n;
 void dfs(int u){
     if(u == n){
+        // 搜索到最后，终止并输出
         for(int i = 0; i < n ; i++)
             if(s[i] == 1)
                 cout << i+1 <<" ";
@@ -74,6 +74,7 @@ void dfs(int u){
     dfs(u+1);
     s[u] = 1;
     dfs(u+1);
+    // 回溯，0表示初试状态，1表示选择，2表示不选
     s[u] = 0;
 }
 int main(){
@@ -83,28 +84,24 @@ int main(){
 }
 ```
 
-
-
-## 算法实现二 python
+## 算法实现二 Python
 
 ```python
+n = int(input())
+# 0表示初始状态，1表示选择，2表示不选
+tmp = [0 for i in range(n)]
 def dfs(u):
-    global n
-    global s
     if u == n:
-        for i in range(n):
-            if s[i] == 1:
+        for i,d in enumerate(tmp):
+            if d == 1:
                 print(i+1,end=' ')
         print('')
-        return 
-    
-    s[u] = 2
+        return None
+    tmp[u] = 2
     dfs(u+1)
-    s[u] = 1
+    tmp[u] = 1
     dfs(u+1)
-    s[u] = 0
-n = int(input())
-s = [0 for i in range(n)]
+    tmp[u] = 0
 dfs(0)
 ```
 
